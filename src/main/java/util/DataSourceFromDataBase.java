@@ -34,8 +34,7 @@ public class DataSourceFromDataBase {
 
   public DataSourceFromDataBase() {}
 
-  public JRResultSetDataSource getResultSetDataSourceForCrossTab()
-      throws SQLException, ParserConfigurationException, IOException, SAXException {
+  public JRResultSetDataSource getResultSetDataSourceForCrossTab() throws SQLException {
 
     ResultSet resultSet;
 
@@ -49,8 +48,7 @@ public class DataSourceFromDataBase {
     return new JRResultSetDataSource(resultSet);
   }
 
-  public JRResultSetDataSource getResultSetDataSourceForBarchart()
-          throws SQLException, ParserConfigurationException, IOException, SAXException {
+  public JRResultSetDataSource getResultSetDataSourceForBarchart() throws SQLException {
 
     ResultSet resultSet;
 
@@ -64,6 +62,7 @@ public class DataSourceFromDataBase {
     return new JRResultSetDataSource(resultSet);
   }
 
+  @SuppressWarnings("unused")
   private static void populateDataBase(Connection connection)
       throws ParserConfigurationException, IOException, SAXException {
 

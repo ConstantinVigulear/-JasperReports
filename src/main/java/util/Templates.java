@@ -1,18 +1,15 @@
 package util;
 
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
-import java.awt.Color;
 import java.io.Serial;
 import java.util.Locale;
 import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
-import net.sf.dynamicreports.report.builder.HyperLinkBuilder;
 import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.datatype.BigDecimalType;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.builder.tableofcontents.TableOfContentsCustomizerBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
-import net.sf.dynamicreports.report.constant.VerticalTextAlignment;
 import net.sf.dynamicreports.report.definition.ReportParameters;
 
 /**
@@ -77,14 +74,6 @@ public class Templates {
                 .setPattern("dd-MM-yyyy")
                 .setHorizontalTextAlignment(HorizontalTextAlignment.LEFT),
             cmp.pageXofY().setHorizontalTextAlignment(HorizontalTextAlignment.RIGHT));
-  }
-  /** 128 Creates custom component which is possible to add to any report band component 129 */
-  public static ComponentBuilder<?, ?> createTitleComponent(String label) {
-    return cmp.horizontalList().add(dynamicReportsComponent);
-  }
-
-  public static CurrencyValueFormatter createCurrencyValueFormatter(String label) {
-    return new CurrencyValueFormatter(label);
   }
 
   public static class CurrencyType extends BigDecimalType {

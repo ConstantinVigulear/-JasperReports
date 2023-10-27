@@ -66,30 +66,32 @@ public class CrossTabBarChartDynamicReport {
     CrosstabColumnGroupBuilder<String> columnGroup =
         ctab.columnGroup("DATE", String.class).setTotalHeader("Total");
 
-    CrosstabBuilder crosstab =
-        ctab.crosstab()
-            .setCellWidth(40)
-            .headerCell(cmp.text("State / Mese"))
-            .rowGroups(rowGroup)
-            .columnGroups(columnGroup)
-            // .setDataSource(processDatasourceForCrosstabFromXML()) // fetch data directly from XML
-            .setDataSource(
-                new DataSourceFromDataBase().getResultSetDataSourceForCrossTab()) // fetch data from database
-            .measures(
-                ctab.measure("NAME", String.class, Calculation.COUNT)
-                    .setHorizontalTextAlignment(HorizontalTextAlignment.LEFT));
-    return crosstab;
+    return ctab.crosstab()
+        .setCellWidth(40)
+        .headerCell(cmp.text("State / Mese"))
+        .rowGroups(rowGroup)
+        .columnGroups(columnGroup)
+        // .setDataSource(processDatasourceForCrosstabFromXML()) // fetch data directly from XML
+        .setDataSource(
+            new DataSourceFromDataBase()
+                .getResultSetDataSourceForCrossTab()) // fetch data from database
+        .measures(
+            ctab.measure("NAME", String.class, Calculation.COUNT)
+                .setHorizontalTextAlignment(HorizontalTextAlignment.LEFT));
   }
 
-  private BarChartBuilder getBarChartBuilder() throws SQLException, ParserConfigurationException, IOException, SAXException {
+  private BarChartBuilder getBarChartBuilder()
+      throws SQLException, ParserConfigurationException, IOException, SAXException {
 
     TextColumnBuilder<String> monthColumn = col.column("Month", "DATE", type.stringType());
     TextColumnBuilder<String> countryColumn = col.column("Country", "COUNTRY", type.stringType());
     TextColumnBuilder<Integer> countColumn = col.column("Quantity", "COUNT", type.integerType());
 
     return cht.barChart()
-//        .setDataSource(processDatasourceForBarChartFromXML()) // data directly from XML
-        .setDataSource(new DataSourceFromDataBase().getResultSetDataSourceForBarchart()) // data directly from DB
+        //        .setDataSource(processDatasourceForBarChartFromXML()) // data directly from XML
+        .setDataSource(
+            new DataSourceFromDataBase()
+                .getResultSetDataSourceForBarchart()) // data directly from DB
         .setTitle("Bar Chart")
         .setCategory(monthColumn)
         .series(cht.serie(countColumn).setSeries(countryColumn))
@@ -122,7 +124,7 @@ public class CrossTabBarChartDynamicReport {
         });
 
     // sort data by month
-    Collection<Map<String, ?>> finalTempData = new ArrayList<>();
+    Collection<Map<String, ?>> finalTempData;
     finalTempData =
         tempData.stream()
             .sorted(Comparator.comparingInt(o -> Integer.parseInt(o.get("DATE").toString())))
@@ -131,16 +133,14 @@ public class CrossTabBarChartDynamicReport {
     return new JRMapCollectionDataSource(finalTempData);
   }
 
+  @SuppressWarnings({"unused", "SuspiciousMethodCalls"})
   private JRMapCollectionDataSource processDatasourceForBarChartFromXML() {
     JRMapCollectionDataSource initialDataSource = this.processDatasourceForCrosstabFromXML();
     Collection<Map<String, ?>> initialData = initialDataSource.getData().stream().toList();
 
     // get a set of countries with map of month and holidays per month
     Map<String, Map<String, Integer>> countries = new HashMap<>();
-    initialData.forEach(
-        e -> {
-          countries.put(e.get("COUNTRY").toString(), getHashMapForMonthCount());
-        });
+    initialData.forEach(e -> countries.put(e.get("COUNTRY").toString(), getHashMapForMonthCount()));
 
     // count holidays per month for every country
     initialData.forEach(
@@ -160,16 +160,15 @@ public class CrossTabBarChartDynamicReport {
           Map<String, Integer> monthCount = countries.get(countryName);
           List<String> monthNumbers = monthCount.keySet().stream().toList();
           monthNumbers.forEach(
-              monthNumber -> {
-                results.add(
-                    new HashMap<>() {
-                      {
-                        put("COUNTRY", countryName);
-                        put("DATE", monthNumber);
-                        put("COUNT", monthCount.get(monthNumber));
-                      }
-                    });
-              });
+              monthNumber ->
+                  results.add(
+                      new HashMap<>() {
+                        {
+                          put("COUNTRY", countryName);
+                          put("DATE", monthNumber);
+                          put("COUNT", monthCount.get(monthNumber));
+                        }
+                      }));
         });
 
     return new JRMapCollectionDataSource(results);
