@@ -85,20 +85,4 @@ public class Templates {
     }
   }
 
-  private static class CurrencyValueFormatter extends AbstractValueFormatter<String, Number> {
-    @Serial private static final long serialVersionUID = 1L;
-
-    private final String label;
-
-    public CurrencyValueFormatter(String label) {
-
-      this.label = label;
-    }
-
-    @Override
-    public String format(Number value, ReportParameters reportParameters) {
-
-      return label + currencyType.valueToString(value, reportParameters.getLocale());
-    }
-  }
 }
