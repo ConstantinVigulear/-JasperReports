@@ -3,14 +3,12 @@ package util;
 import static net.sf.dynamicreports.report.builder.DynamicReports.*;
 import java.io.Serial;
 import java.util.Locale;
-import net.sf.dynamicreports.report.base.expression.AbstractValueFormatter;
 import net.sf.dynamicreports.report.builder.ReportTemplateBuilder;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilder;
 import net.sf.dynamicreports.report.builder.datatype.BigDecimalType;
 import net.sf.dynamicreports.report.builder.style.StyleBuilder;
 import net.sf.dynamicreports.report.builder.tableofcontents.TableOfContentsCustomizerBuilder;
 import net.sf.dynamicreports.report.constant.HorizontalTextAlignment;
-import net.sf.dynamicreports.report.definition.ReportParameters;
 
 /**
  * @author Ricardo Mariaca (r.mariaca@dynamicreports.org)
@@ -84,5 +82,4 @@ public class Templates {
       return "$ #,###.00";
     }
   }
-
 }
